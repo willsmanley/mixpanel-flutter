@@ -144,7 +144,7 @@ class MixpanelFlutterPlugin {
   void handleSetServerURL(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     String serverURL = args['serverURL'] as String;
-    set_config(js.jsify({'api_host': serverURL}));
+    mixpanel.set_config(js.jsify({'api_host': serverURL}));
   }
 
   void handleTrack(MethodCall call) {
@@ -155,20 +155,20 @@ class MixpanelFlutterPlugin {
       ..._mixpanelProperties,
       ...(properties ?? {})
     };
-    track(eventName, js.jsify(props));
+    mixpanel.track(eventName, js.jsify(props));
   }
 
   void handleAlias(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     String aliasName = args['alias'] as String;
     String distinctId = args['distinctId'] as String;
-    alias(aliasName, distinctId);
+    mixpanel.alias(aliasName, distinctId);
   }
 
   void handleIdentify(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     String distinctId = args['distinctId'] as String;
-    identify(distinctId);
+    mixpanel.identify(distinctId);
   }
 
   void handleTrackWithGroups(MethodCall call) {
@@ -180,7 +180,7 @@ class MixpanelFlutterPlugin {
       ...(properties ?? {})
     };
     dynamic groups = args["groups"];
-    track_with_groups(eventName, js.jsify(props), js.jsify(groups));
+    mixpanel.track_with_groups(eventName, js.jsify(props), js.jsify(groups));
   }
 
   void handleSetGroup(MethodCall call) {
@@ -188,7 +188,7 @@ class MixpanelFlutterPlugin {
     String groupKey = args['groupKey'] as String;
     dynamic groupID = args["groupID"];
     if (groupID != null) {
-      set_group(groupKey,
+      mixpanel.set_group(groupKey,
           (groupID is Map || groupID is List) ? js.jsify(groupID) : groupID);
     }
   }
@@ -199,7 +199,7 @@ class MixpanelFlutterPlugin {
     dynamic groupID = args["groupID"];
 
     if (groupID != null) {
-      add_group(groupKey,
+      mixpanel.add_group(groupKey,
           (groupID is Map || groupID is List) ? js.jsify(groupID) : groupID);
     }
   }
@@ -209,7 +209,7 @@ class MixpanelFlutterPlugin {
     String groupKey = args['groupKey'] as String;
     dynamic groupID = args["groupID"];
     if (groupID != null) {
-      remove_group(groupKey,
+      mixpanel.remove_group(groupKey,
           (groupID is Map || groupID is List) ? js.jsify(groupID) : groupID);
     }
   }
@@ -217,92 +217,92 @@ class MixpanelFlutterPlugin {
   void handleRegisterSuperProperties(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     dynamic properties = args['properties'];
-    register(js.jsify(properties));
+    mixpanel.register(js.jsify(properties));
   }
 
   void handleRegisterSuperPropertiesOnce(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     dynamic properties = args['properties'];
-    register_once(js.jsify(properties));
+    mixpanel.register_once(js.jsify(properties));
   }
 
   void handleUnregisterSuperProperty(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     String propertyName = args['propertyName'] as String;
-    unregister(propertyName);
+    mixpanel.unregister(propertyName);
   }
 
   void handleTimeEvent(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     String eventName = args['eventName'] as String;
-    time_event(eventName);
+    mixpanel.time_event(eventName);
   }
 
   void handleReset() {
-    reset();
+    mixpanel.reset();
   }
 
   String handleGetDistinctId() {
-    return get_distinct_id();
+    return mixpanel.get_distinct_id();
   }
 
   void handleSet(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     dynamic properties = args['properties'];
     Map<String, dynamic> props = {..._mixpanelProperties, ...properties};
-    people_set(js.jsify(props));
+    mixpanel.people_set(js.jsify(props));
   }
 
   void handleSetOnce(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     dynamic properties = args['properties'];
     Map<String, dynamic> props = {..._mixpanelProperties, ...properties};
-    people_set_once(js.jsify(props));
+    mixpanel.people_set_once(js.jsify(props));
   }
 
   void handlePeopleIncrement(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     dynamic properties = args['properties'];
-    people_increment(js.jsify(properties));
+    mixpanel.people_increment(js.jsify(properties));
   }
 
   void handlePeopleAppend(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     dynamic properties = args['properties'];
-    people_append(js.jsify(properties));
+    mixpanel.people_append(js.jsify(properties));
   }
 
   void handlePeopleUnion(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     dynamic properties = args['properties'];
-    people_union(js.jsify(properties));
+    mixpanel.people_union(js.jsify(properties));
   }
 
   void handlePeopleRemove(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     dynamic properties = args['properties'];
-    people_remove(js.jsify(properties));
+    mixpanel.people_remove(js.jsify(properties));
   }
 
   void handlePeopleUnset(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     dynamic properties = args['properties'];
-    people_unset(js.jsify(properties));
+    mixpanel.people_unset(js.jsify(properties));
   }
 
   void handleTrackCharge(MethodCall call) {
     Map<Object?, Object?> args = call.arguments as Map<Object?, Object?>;
     dynamic properties = args['properties'];
     double amount = args['amount'] as double;
-    people_track_charge(amount, js.jsify(properties ?? {}));
+    mixpanel.people_track_charge(amount, js.jsify(properties ?? {}));
   }
 
   void handleClearCharge() {
-    people_clear_charge();
+    mixpanel.people_clear_charge();
   }
 
   void handleDeleteUsers() {
-    people_delete_users();
+    mixpanel.people_delete_users();
   }
 
   void handleGroupSetProperties(MethodCall call) {
@@ -311,7 +311,8 @@ class MixpanelFlutterPlugin {
     dynamic groupID = args['groupID'];
 
     dynamic properties = args['properties'];
-    get_group(groupKey,
+    mixpanel
+        .get_group(groupKey,
             (groupID is Map || groupID is List) ? js.jsify(groupID) : groupID)
         .set(js.jsify(properties));
   }
@@ -323,7 +324,8 @@ class MixpanelFlutterPlugin {
 
     dynamic properties = args['properties'];
 
-    get_group(groupKey,
+    mixpanel
+        .get_group(groupKey,
             (groupID is Map || groupID is List) ? js.jsify(groupID) : groupID)
         .set_once(properties.keys.first, properties[properties.keys.first]);
   }
@@ -334,7 +336,8 @@ class MixpanelFlutterPlugin {
     dynamic groupID = args['groupID'];
 
     String propertyName = args['propertyName'] as String;
-    get_group(groupKey,
+    mixpanel
+        .get_group(groupKey,
             (groupID is Map || groupID is List) ? js.jsify(groupID) : groupID)
         .unset(propertyName);
   }
@@ -346,7 +349,8 @@ class MixpanelFlutterPlugin {
 
     String name = args['name'] as String;
     dynamic value = args['value'];
-    get_group(groupKey,
+    mixpanel
+        .get_group(groupKey,
             (groupID is Map || groupID is List) ? js.jsify(groupID) : groupID)
         .remove(
             name, (value is Map || value is List) ? js.jsify(value) : value);
@@ -359,20 +363,21 @@ class MixpanelFlutterPlugin {
 
     String name = args['name'] as String;
     dynamic value = args['value'] as dynamic;
-    get_group(groupKey,
+    mixpanel
+        .get_group(groupKey,
             (groupID is Map || groupID is List) ? js.jsify(groupID) : groupID)
         .union(name, js.jsify(value));
   }
 
   bool handleHasOptedOutTracking() {
-    return has_opted_out_tracking();
+    return mixpanel.has_opted_out_tracking();
   }
 
   void handleOptInTracking() {
-    opt_in_tracking();
+    mixpanel.opt_in_tracking();
   }
 
   void handleOptOutTracking() {
-    opt_out_tracking();
+    mixpanel.opt_out_tracking();
   }
 }
